@@ -189,10 +189,48 @@ function checkMaybe(obj, condition) {
   }
 }
 
-function makeNewCandidates(candidates, conditions) {
+function applyIsRightOrder(obj, condition, candidates) {
+  let keyA = Object.keys(condition)[0]
+  let keyB = Object.keys(condition)[1]
+  let keyC = Object.keys(condition)[2]
+  let candidateFound = false;
+  if (obj[keyA] === condition[keyA]){
+    candidates.forEach(function(cand){
+      if (cand[keyA] === obj[keyA]){
+        return
+      } else {
+        if (cand[keyB] === condition[keyB] && isPreviousDay(obj['day'], cand['day'])){
+          candidates.forEach(function(cand2){
+            if (cand2[keyA] === obj[keyA] || cand2[keyB] === cand[keyB]){
+              return
+            } else {
+              if (cand2[keyC] === condition[keyC] && isAfter(obj['day'], cand2['day'])){
+                candidateFound = true
+              }
+            }
+
+          })
+        }
+      }
+    })
+  } else {
+    return true
+  }
+  return candidateFound
+}
+
+function isPreviousDay(day1, day2){
+  return data.day.indexOf(day1) === data.day.indexOf(day2) - 1
+}
+
+function isAfter(day1, day2){
+  return data.day.indexOf(day1) > data.day.indexOf(day2)
+}
+
+function makeNewCandidates(candidates, condition) {
   let newCandidates = [];
   candidates.forEach(function(obj) {
-    if (checkMaybe(obj, conditions)) {
+    if (checkMaybe(obj, condition)) {
       newCandidates.push(obj);
     }
   });
