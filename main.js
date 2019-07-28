@@ -195,26 +195,26 @@ let conditions = [
   // { firstName: "Walter", event: "anniversary", negate: false },
 ];
 
-candidates = generateNewCanditates(candidates, conditions);
-// console.log(generateExtraConditions(candidates))
+while(candidates.length > 4){
+  let beginLength = candidates.length 
+  candidates = generateNewCanditates(candidates, conditions);
+  // console.log(generateExtraConditions(candidates))
+  
+  candidates = generateNewCanditates(
+    candidates,
+    generateExtraConditionWithNextDay(candidates)
+  );
+  
+  candidates = generateNewCanditates(
+    candidates,
+    generateExtraConditions(candidates)
+  );
+  if (candidates.length === beginLength){
+    console.log('break!!!')
+    break;
+  }
+}
 
-
-candidates = generateNewCanditates(
-  candidates,
-  generateExtraConditions(candidates)
-);
-candidates = generateNewCanditates(
-  candidates,
-  generateExtraConditions(candidates)
-);
-
-candidates = generateNewCanditates(
-  candidates,
-  generateExtraConditionWithNextDay(candidates)
-);
-
-
-//console.log(newCandidates, newCandidates.length)
 console.log("+++++++  summary  +++++++++++");
 let summary = {};
 candidates.forEach(function(candidate) {
@@ -238,24 +238,26 @@ candidates.forEach(function(candidate) {
 console.log(summary);
 
 function generateNewCanditates(candidates, conditions) {
-  conditions.forEach(function(cond) {
-    Object.keys(cond).forEach(function(key) {
-      try {
-        if (
-          key !== "negate" &&
-          key !== "function" &&
-          data[key].indexOf(cond[key]) === -1
-        ) {
-          throw new Error("error" + JSON.stringify(cond));
+  if(conditions){
+    conditions.forEach(function(cond) {
+      Object.keys(cond).forEach(function(key) {
+        try {
+          if (
+            key !== "negate" &&
+            key !== "function" &&
+            data[key].indexOf(cond[key]) === -1
+          ) {
+            throw new Error("error" + JSON.stringify(cond));
+          }
+        } catch (e) {
+          console.error(e);
         }
-      } catch (e) {
-        console.error(e);
-      }
-    });
-    console.log("--------------------------");
-    candidates = makeNewCandidates(candidates, cond);
-    console.log(cond, candidates.length);
-  });
+      });
+      console.log("--------------------------");
+      candidates = makeNewCandidates(candidates, cond);
+      console.log(cond, candidates.length);
+    });  
+  }
   return candidates;
 }
 
@@ -322,40 +324,42 @@ function applySimpleCondition(obj, condition) {
 
 function generateExtraConditionWithNextDay(candidates) {
   let extraConditions = [];
+  let possibleCandidates = [];
+  let indexTaken = [];
   for (let i = 0; i < candidates.length; i++) {
     if (candidates[i]["firstName"] === "Walter") {
       let nextDay = getNextDay(candidates[i]["day"]);
       for (let j = 0; j < candidates.length; j++) {
         if (
           candidates[j]["day"] === nextDay &&
-          candidates[j]["lastName"] === "DeForest"
+          candidates[j]["lastName"] === "DeForest" && indexTaken.indexOf(j) === -1
         ) {
-          Object.keys(candidates[j]).forEach(function(key) {
-            if (key !== "firstName") {
-              let condition = {};
-              condition["firstName"] = candidates[j].firstName;
-              condition[key] = candidates[j][key];
-              condition["negate"] = false;
-              condition["function"] = applySimpleCondition;
-              extraConditions.push(condition);
-            }
-          });
+          possibleCandidates.push(candidates[j]);
+          indexTaken.push(j)
         }
       }
     }
   }
-  return extraConditions;
+  if (possibleCandidates.length === 1) {
+    Object.keys(possibleCandidates[0]).forEach(function(key) {
+      if (key !== "firstName") {
+        let condition = {};
+        condition["firstName"] = possibleCandidates[0].firstName;
+        condition[key] = possibleCandidates[0][key];
+        condition["negate"] = false;
+        condition["function"] = applySimpleCondition;
+        extraConditions.push(condition);
+      }
+    });
+    return extraConditions;
+  }
+
 }
 
-function isPreviousDay(day1, day2) {
-  return data.day.indexOf(day1) === data.day.indexOf(day2) - 1;
-}
 function getNextDay(day) {
   return data.day[data.day.indexOf(day) + 1];
 }
-function isAfter(day1, day2) {
-  return data.day.indexOf(day1) > data.day.indexOf(day2);
-}
+
 
 function makeNewCandidates(candidates, condition) {
   let newCandidates = [];
