@@ -35,35 +35,155 @@ data.firstName.forEach(function(f) {
 // Conditions
 let conditions = [
   // 1.-----------
-  { firstName: "Ellen", lastName: "Fairview", negate: false },
-  { relationship: "friend", firstName: "Ellen", negate: true },
-  { state: "Ohio", firstName: "Ellen", negate: true },
-  { event: "birthday", day: "Fri", negate: true },
-  { event: "birthday", firstName: "Rick", negate: true },
-  { event: "birthday", firstName: "Walter", negate: true },
+  {
+    firstName: "Ellen",
+    lastName: "Fairview",
+    negate: false,
+    function: applySimpleCondition
+  },
+  {
+    relationship: "friend",
+    firstName: "Ellen",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    state: "Ohio",
+    firstName: "Ellen",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    event: "birthday",
+    day: "Fri",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    event: "birthday",
+    firstName: "Rick",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    event: "birthday",
+    firstName: "Walter",
+    negate: true,
+    function: applySimpleCondition
+  },
   // 2. -----------
-  { firstName: "Rick", day: "Sat", negate: false },
-  { firstName: "Rick", lastName: "Bartley", negate: true },
+  {
+    firstName: "Rick",
+    day: "Sat",
+    negate: false,
+    function: applySimpleCondition
+  },
+  {
+    firstName: "Rick",
+    lastName: "Bartley",
+    negate: true,
+    function: applySimpleCondition
+  },
   // 3. -----------
-  { relationship: "father", lastName: "Gray", negate: false },
-  { relationship: "father", event: "wedding", negate: true },
+  {
+    relationship: "father",
+    lastName: "Gray",
+    negate: false,
+    function: applySimpleCondition
+  },
+  {
+    relationship: "father",
+    event: "wedding",
+    negate: true,
+    function: applySimpleCondition
+  },
   // 4. -----------
-  { relationship: "friend", event: "house warming", negate: false },
-  { relationship: "friend", state: "Ohio", negate: true },
+  {
+    relationship: "friend",
+    event: "house warming",
+    negate: false,
+    function: applySimpleCondition
+  },
+  {
+    relationship: "friend",
+    state: "Ohio",
+    negate: true,
+    function: applySimpleCondition
+  },
   // 5. -----------
-  { relationship: "cousin", event: "wedding", negate: false },
-  { firstName: "Heather", state: "Texas", negate: true },
-  { firstName: "Heather", relationship: "sister", negate: false },
-  { firstName: "Heather", day: "Wed", negate: true },
+  {
+    relationship: "cousin",
+    event: "wedding",
+    negate: false,
+    function: applySimpleCondition
+  },
+  {
+    firstName: "Heather",
+    state: "Texas",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    firstName: "Heather",
+    relationship: "sister",
+    negate: false,
+    function: applySimpleCondition
+  },
+  {
+    firstName: "Heather",
+    day: "Wed",
+    negate: true,
+    function: applySimpleCondition
+  },
   // 6. -----------
-  { firstName: "Walter", lastName: "DeForest", negate: true },
-  { firstName: "Walter", state: "Washington", negate: true },
-  { lastName: "DeForest", state: "Washington", negate: true },
-  { event: "anniversary", state: "Montana", negate: false },
-  { firstName: "Walter", day: "Sat", negate: true },
-  { firstName: "Walter", day: "Wed", negate: true },
-  { state: "Washington", day: "Sat", negate: true },
-  { lastName: "DeForest", day: "Wed", negate: true },
+  {
+    firstName: "Walter",
+    lastName: "DeForest",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    firstName: "Walter",
+    state: "Washington",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    lastName: "DeForest",
+    state: "Washington",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    event: "anniversary",
+    state: "Montana",
+    negate: false,
+    function: applySimpleCondition
+  },
+  {
+    firstName: "Walter",
+    day: "Sat",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    firstName: "Walter",
+    day: "Wed",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    state: "Washington",
+    day: "Sat",
+    negate: true,
+    function: applySimpleCondition
+  },
+  {
+    lastName: "DeForest",
+    day: "Wed",
+    negate: true,
+    function: applySimpleCondition
+  }
   // extras...
   // { firstName: "Ellen", event: "wedding", negate: false },
   // { firstName: "Heather", state: "Ohio", negate: false },
@@ -71,56 +191,72 @@ let conditions = [
   // { firstName: "Ellen", day: "Wed", negate: false },
   // { firstName: "Heather", event: "birthday", negate: false },
   // { firstName: "Ellen", state: "Washington", negate: false },
-  // { firstName: "Rick", lastName: "DeForest", negate: false },
+  //{ firstName: "Rick", lastName: "DeForest", negate: false },
   // { firstName: "Walter", event: "anniversary", negate: false },
 ];
 
-candidates = generateNewCanditates(candidates, conditions)
+candidates = generateNewCanditates(candidates, conditions);
 // console.log(generateExtraConditions(candidates))
-let newCandidates = generateNewCanditates(candidates, generateExtraConditions(candidates))
-// console.log(newCandidates)
-newCandidates = generateNewCanditates(newCandidates, generateExtraConditions(newCandidates))
-newCandidates = generateNewCanditates(newCandidates, generateExtraConditions(newCandidates))
 
-//console.log(newCandidates, newCandidates.length) 
+
+candidates = generateNewCanditates(
+  candidates,
+  generateExtraConditions(candidates)
+);
+candidates = generateNewCanditates(
+  candidates,
+  generateExtraConditions(candidates)
+);
+
+candidates = generateNewCanditates(
+  candidates,
+  generateExtraConditionWithNextDay(candidates)
+);
+
+
+//console.log(newCandidates, newCandidates.length)
 console.log("+++++++  summary  +++++++++++");
-let summary = {}
-newCandidates.forEach(function(candidate){
-    let obj = {
-        lastName: [],
-        state: [],
-        event: [],
-        relationship: [],
-        day: []
+let summary = {};
+candidates.forEach(function(candidate) {
+  let obj = {
+    lastName: [],
+    state: [],
+    event: [],
+    relationship: [],
+    day: []
+  };
+  if (Object.keys(summary).indexOf(candidate.firstName) !== -1) {
+    obj = summary[candidate.firstName];
+  }
+  Object.keys(obj).forEach(function(key) {
+    if (obj[key].indexOf(candidate[key]) === -1) {
+      obj[key].push(candidate[key]);
     }
-    if (Object.keys(summary).indexOf(candidate.firstName) !== -1){
-        obj = summary[candidate.firstName]
-    }
-    Object.keys(obj).forEach(function(key){
-        if (obj[key].indexOf(candidate[key]) === -1 ){
-            obj[key].push(candidate[key])
-        }    
-    })
-    summary[candidate.firstName] = obj
-})
-console.log(summary)
+  });
+  summary[candidate.firstName] = obj;
+});
+console.log(summary);
 
-function generateNewCanditates(candidates, conditions){
-    conditions.forEach(function(cond) {
-      Object.keys(cond).forEach(function(key) {
-        try {
-          if (key !== "negate" && data[key].indexOf(cond[key]) === -1) {
-            throw new Error("error" + JSON.stringify(cond));
-          }
-        } catch (e) {
-          console.error(e);
+function generateNewCanditates(candidates, conditions) {
+  conditions.forEach(function(cond) {
+    Object.keys(cond).forEach(function(key) {
+      try {
+        if (
+          key !== "negate" &&
+          key !== "function" &&
+          data[key].indexOf(cond[key]) === -1
+        ) {
+          throw new Error("error" + JSON.stringify(cond));
         }
-      });
-      console.log("--------------------------");
-      candidates = makeNewCandidates(candidates, cond);
-      console.log(cond, candidates.length);
+      } catch (e) {
+        console.error(e);
+      }
     });
-  return candidates  
+    console.log("--------------------------");
+    candidates = makeNewCandidates(candidates, cond);
+    console.log(cond, candidates.length);
+  });
+  return candidates;
 }
 
 function generateExtraConditions(candidates) {
@@ -140,45 +276,40 @@ function generateExtraConditions(candidates) {
       relationship: 0,
       day: 0
     };
-    
+
     for (let j = 0; j < candidates.length; j++) {
-      if (i !== j){
+      if (i !== j) {
         Object.keys(checkOthers).forEach(function(key) {
           if (
             candidates[i].firstName !== candidates[j].firstName &&
             candidates[i][key] === candidates[j][key]
           ) {
             checkOthers[key]++;
-          } else if ( candidates[i].firstName === candidates[j].firstName &&
-            candidates[i][key] !== candidates[j][key]){
-              checkSelf[key]++;
-            }
-        });  
+          } else if (
+            candidates[i].firstName === candidates[j].firstName &&
+            candidates[i][key] !== candidates[j][key]
+          ) {
+            checkSelf[key]++;
+          }
+        });
       }
     }
-    console.log(candidates[i], checkOthers)
+    // console.log(candidates[i], checkOthers);
     Object.keys(checkOthers).forEach(function(key) {
-      if (checkOthers[key] === 0) {
+      if (checkOthers[key] === 0 || checkSelf[key] === 0) {
         let condition = {};
         condition["firstName"] = candidates[i].firstName;
         condition[key] = candidates[i][key];
         condition["negate"] = false;
+        condition["function"] = applySimpleCondition;
         newConditions.push(condition);
       }
-      if (checkSelf[key] === 0) {
-        let condition = {};
-        condition["firstName"] = candidates[i].firstName;
-        condition[key] = candidates[i][key];
-        condition["negate"] = false;
-        newConditions.push(condition);
-      }
-    })
+    });
   }
-  return newConditions
+  return newConditions;
 }
 
-
-function checkMaybe(obj, condition) {
+function applySimpleCondition(obj, condition) {
   let keyA = Object.keys(condition)[0];
   let keyB = Object.keys(condition)[1];
   let negate = condition[Object.keys(condition)[2]];
@@ -189,48 +320,48 @@ function checkMaybe(obj, condition) {
   }
 }
 
-function applyIsRightOrder(obj, condition, candidates) {
-  let keyA = Object.keys(condition)[0]
-  let keyB = Object.keys(condition)[1]
-  let keyC = Object.keys(condition)[2]
-  let candidateFound = false;
-  if (obj[keyA] === condition[keyA]){
-    candidates.forEach(function(cand){
-      if (cand[keyA] === obj[keyA]){
-        return
-      } else {
-        if (cand[keyB] === condition[keyB] && isPreviousDay(obj['day'], cand['day'])){
-          candidates.forEach(function(cand2){
-            if (cand2[keyA] === obj[keyA] || cand2[keyB] === cand[keyB]){
-              return
-            } else {
-              if (cand2[keyC] === condition[keyC] && isAfter(obj['day'], cand2['day'])){
-                candidateFound = true
-              }
+function generateExtraConditionWithNextDay(candidates) {
+  let extraConditions = [];
+  for (let i = 0; i < candidates.length; i++) {
+    if (candidates[i]["firstName"] === "Walter") {
+      let nextDay = getNextDay(candidates[i]["day"]);
+      for (let j = 0; j < candidates.length; j++) {
+        if (
+          candidates[j]["day"] === nextDay &&
+          candidates[j]["lastName"] === "DeForest"
+        ) {
+          Object.keys(candidates[j]).forEach(function(key) {
+            if (key !== "firstName") {
+              let condition = {};
+              condition["firstName"] = candidates[j].firstName;
+              condition[key] = candidates[j][key];
+              condition["negate"] = false;
+              condition["function"] = applySimpleCondition;
+              extraConditions.push(condition);
             }
-
-          })
+          });
         }
       }
-    })
-  } else {
-    return true
+    }
   }
-  return candidateFound
+  return extraConditions;
 }
 
-function isPreviousDay(day1, day2){
-  return data.day.indexOf(day1) === data.day.indexOf(day2) - 1
+function isPreviousDay(day1, day2) {
+  return data.day.indexOf(day1) === data.day.indexOf(day2) - 1;
 }
-
-function isAfter(day1, day2){
-  return data.day.indexOf(day1) > data.day.indexOf(day2)
+function getNextDay(day) {
+  return data.day[data.day.indexOf(day) + 1];
+}
+function isAfter(day1, day2) {
+  return data.day.indexOf(day1) > data.day.indexOf(day2);
 }
 
 function makeNewCandidates(candidates, condition) {
   let newCandidates = [];
   candidates.forEach(function(obj) {
-    if (checkMaybe(obj, condition)) {
+    let func = condition.function;
+    if (func(obj, condition, candidates)) {
       newCandidates.push(obj);
     }
   });
